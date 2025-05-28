@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Autenticació</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-logo">
+            <img src="images/logo.png" alt="Warborn Unbound Logo">
+            <h1>Warborn Unbound</h1>
+        </div>
+        
+        <div class="auth-tabs">
+            <button class="tab-button active" data-tab="login">Iniciar Sessió</button>
+            <button class="tab-button" data-tab="register">Registrar-se</button>
+        </div>
+        
+        <div class="auth-forms">
+            <!-- Formulario de inicio de sesión -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginUsername">Nom d'usuari o correu electrònic</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contrasenya</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="form-message" id="loginMessage"></div>
+                <button type="submit" class="auth-button">Iniciar Sessió</button>
+            </form>
+            
+            <!-- Formulario de registro -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="registerUsername">Nom d'usuari</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Correu electrònic</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contrasenya</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPasswordConfirm">Confirmar contrasenya</label>
+                    <input type="password" id="registerPasswordConfirm" required>
+                </div>
+                <div class="form-message" id="registerMessage"></div>
+                <button type="submit" class="auth-button">Registrar-se</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="user.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

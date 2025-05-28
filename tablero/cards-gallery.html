@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Galeria de Cartes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cards.css">
+    <link rel="stylesheet" href="cards-gallery.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <header class="gallery-header">
+            <a href="menu.html" class="back-button">
+                <span class="back-icon">←</span> Tornar al Menú
+            </a>
+            <h1>Galeria de Cartes</h1>
+            <div class="filter-container">
+                <select id="typeFilter" class="filter-select">
+                    <option value="all">Tots els tipus</option>
+                    <option value="offensive">Ofensives</option>
+                    <option value="defensive">Defensives</option>
+                </select>
+            </div>
+        </header>
+        
+        <div class="gallery-content">
+            <div class="cards-carousel">
+                <div class="carousel-container" id="carouselContainer">
+                    <!-- Las cartas se generarán dinámicamente -->
+                </div>
+                <button class="carousel-button prev" id="prevButton">❮</button>
+                <button class="carousel-button next" id="nextButton">❯</button>
+            </div>
+            
+            <div class="card-details" id="cardDetails">
+                <div class="card-info">
+                    <h2 id="cardName">Nom de la Carta</h2>
+                    <div class="card-type">
+                        <span class="type-label">Tipus:</span>
+                        <span class="type-value" id="cardType">Ofensiva</span>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <div class="stat-icon health-icon"></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Salut</span>
+                                <span class="stat-value" id="cardHealth">1000</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon attack-icon"></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Atac</span>
+                                <span class="stat-value" id="cardAttack">75</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon special-icon"></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Habilitat Especial</span>
+                                <span class="stat-value" id="cardSpecial">150</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        <h3>Descripció</h3>
+                        <p id="cardDescription">Descripció de la carta.</p>
+                    </div>
+                    <div class="special-ability">
+                        <h3>Habilitat Especial</h3>
+                        <div class="ability-info">
+                            <span class="ability-name" id="abilityName">Nom de l'habilitat</span>
+                            <span class="ability-type" id="abilityType">Tipus d'habilitat</span>
+                        </div>
+                        <p id="abilityDescription">Descripció de l'habilitat especial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="user.js"></script>
+    <script src="cards.js"></script>
+    <script src="cards-gallery.js"></script>
+</body>
+</html>

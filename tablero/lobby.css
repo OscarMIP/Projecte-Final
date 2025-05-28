@@ -1,0 +1,285 @@
+/* Estilos para la página de lobby */
+.lobby-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.lobby-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.lobby-header h1 {
+    font-family: 'God of War', sans-serif;
+    font-size: 3rem;
+    margin: 0;
+    color: #e63946;
+    text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+.lobby-content {
+    margin-bottom: 30px;
+}
+
+.lobby-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tab-button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    padding: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: white;
+    border-bottom: 3px solid #e63946;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.panel-content {
+    padding: 20px;
+}
+
+.panel-content h2 {
+    margin-top: 0;
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.panel-content p {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #e63946;
+    box-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
+}
+
+.action-button {
+    width: 100%;
+    padding: 15px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.action-button:hover:not(:disabled) {
+    background: #c1121f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(193, 18, 31, 0.4);
+}
+
+.action-button:disabled {
+    background: #888;
+    cursor: not-allowed;
+}
+
+.room-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.room-info h3 {
+    margin-top: 0;
+    color: #e63946;
+}
+
+.room-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+#roomCodeDisplay {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #e63946;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(230, 57, 70, 0.5);
+}
+
+.copy-button {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.player-list {
+    margin: 20px 0;
+}
+
+.player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.player-item.waiting {
+    opacity: 0.6;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.player-status {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.player-status.host {
+    background: rgba(230, 57, 70, 0.3);
+    color: #e63946;
+}
+
+.lobby-footer {
+    text-align: center;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.notification.success {
+    background: #2ecc71;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.notification.error {
+    background: #e74c3c;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.notification.info {
+    background: #3498db;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .lobby-container {
+        width: 95%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    
+    .lobby-header h1 {
+        font-size: 2.5rem;
+    }
+}

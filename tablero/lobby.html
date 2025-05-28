@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Lobby</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lobby.css">
+</head>
+<body>
+    <div class="lobby-container">
+        <div class="lobby-header">
+            <h1>Warborn Unbound</h1>
+            <p class="subtitle">Mode Multijugador Online</p>
+        </div>
+        
+        <div class="lobby-content">
+            <div class="lobby-tabs">
+                <button class="tab-button active" data-tab="create">Crear Partida</button>
+                <button class="tab-button" data-tab="join">Unir-se a Partida</button>
+            </div>
+            
+            <div class="tab-panel active" id="createPanel">
+                <div class="panel-content">
+                    <h2>Crear Nova Partida</h2>
+                    <p>Crea una nova sala i comparteix el codi amb un amic per jugar.</p>
+                    
+                    <button id="createRoomButton" class="action-button">Crear Sala</button>
+                    
+                    <div id="roomCreatedInfo" class="room-info" style="display: none;">
+                        <h3>Sala Creada!</h3>
+                        <p>Comparteix aquest codi amb el teu amic:</p>
+                        <div class="room-code">
+                            <span id="roomCodeDisplay">------</span>
+                            <button id="copyCodeButton" class="copy-button">Copiar</button>
+                        </div>
+                        <p>Esperant a que un altre jugador s'uneixi...</p>
+                        <div class="player-list">
+                            <div class="player-item">
+                                <span class="player-name" id="hostPlayerName">Tu</span>
+                                <span class="player-status host">Amfitrió</span>
+                            </div>
+                            <div class="player-item waiting" id="guestPlayerItem">
+                                <span class="player-name">Esperant jugador...</span>
+                                <span class="player-status">Convidat</span>
+                            </div>
+                        </div>
+                        
+                        <button id="startGameButton" class="action-button" disabled>Iniciar Partida</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-panel" id="joinPanel">
+                <div class="panel-content">
+                    <h2>Unir-se a una Partida</h2>
+                    <p>Introdueix el codi de la sala per unir-te a una partida existent.</p>
+                    
+                    <div class="form-group">
+                        <label for="roomCodeInput">Codi de la Sala</label>
+                        <input type="text" id="roomCodeInput" placeholder="Introdueix el codi (ex: AB123C)" maxlength="6">
+                    </div>
+                    
+                    <button id="joinRoomButton" class="action-button">Unir-se</button>
+                    
+                    <div id="roomJoinedInfo" class="room-info" style="display: none;">
+                        <h3>T'has unit a la sala!</h3>
+                        <p>Esperant a que l'amfitrió iniciï la partida...</p>
+                        <div class="player-list">
+                            <div class="player-item" id="hostPlayerItem">
+                                <span class="player-name">Amfitrió</span>
+                                <span class="player-status host">Amfitrió</span>
+                            </div>
+                            <div class="player-item">
+                                <span class="player-name" id="guestPlayerName">Tu</span>
+                                <span class="player-status">Convidat</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lobby-footer">
+            <a href="menu.html" class="back-button">Tornar al Menú Principal</a>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="user.js"></script>
+    <script src="lobby.js"></script>
+</body>
+</html>

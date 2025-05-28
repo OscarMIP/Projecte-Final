@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - God of War</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    :root {
+        --primary-color: #B71C1C;
+        --secondary-color: #212121;
+        --accent-gold: #C9B037;
+        --background-dark: #181818;
+        --text-light: #fff;
+        --card-bg: rgba(24,24,24,0.92);
+        --glass-bg: rgba(30, 30, 30, 0.92);
+        --glass-border: rgba(201,176,55,0.18);
+        --runic-red: #B71C1C;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'UnifrakturCook', 'God of War', serif;
+        background: 
+            linear-gradient(120deg, rgba(183,28,28,0.3) 0%, rgba(33,33,33,0.5) 100%),
+            url('images/gow_bg.jpg') center/cover no-repeat, 
+            var(--background-dark);
+        min-height: 100vh;
+        color: var(--text-light);
+        position: relative;
+    }
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url('images/gow_runes.png') repeat;
+        opacity: 0.06;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .hero-section {
+        min-height: 40vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        padding-top: 60px;
+    }
+    .hero-title {
+        font-size: 4.2rem;
+        margin-top: 100px;
+        margin-bottom: 24px;
+        text-align: center;
+        line-height: 1.1;
+        display: block;
+    
+        font-family: 'UnifrakturCook', serif;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--accent-gold);
+        letter-spacing: 2px;
+        text-shadow: 0 2px 24px #000, 0 1px 0 var(--runic-red), 0 0 12px #fff3;
+        border-bottom: 3px solid var(--runic-red);
+        padding-bottom: 6px;
+    }
+    .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 30px;
+        color: #ececec;
+        opacity: 0.95;
+        text-shadow: 0 2px 8px #000a;
+        font-family: 'God of War', sans-serif;
+    }
+    .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    .cta-button {
+        padding: 16px 44px;
+        font-size: 1.2rem;
+        border: 2.5px solid var(--accent-gold);
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 2px 10px #000b;
+        background: linear-gradient(90deg, var(--runic-red) 0%, #6d4c41 100%);
+        color: var(--accent-gold);
+        text-shadow: 0 2px 8px #000b;
+        letter-spacing: 1px;
+        transition: transform 0.18s, background 0.18s, color 0.18s;
+        font-family: 'UnifrakturCook', serif;
+    }
+    .cta-button.register-button {
+        background: linear-gradient(90deg, #333 0%, var(--runic-red) 100%);
+        color: #fff;
+    }
+    .cta-button:hover {
+        transform: scale(1.05) translateY(-2px);
+        background: linear-gradient(90deg, #fff2 0%, var(--runic-red) 100%);
+        color: var(--accent-gold);
+        box-shadow: 0 4px 24px #000c;
+    }
+    .features-section {
+        margin: 40px 0 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .features-grid {
+        display: flex;
+        gap: 32px;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: var(--glass-bg);
+        border-radius: 20px;
+        border: 2px solid var(--accent-gold);
+        box-shadow: 0 8px 32px #000a;
+        padding: 40px 30px;
+        margin-top: 20px;
+        margin-bottom: 0;
+        max-width: 900px;
+        width: 90%;
+    }
+    .feature-card {
+        background: var(--card-bg);
+        padding: 30px 22px 24px 22px;
+        border-radius: 12px;
+        box-shadow: 0 2px 14px #000b;
+        min-width: 220px;
+        max-width: 260px;
+        flex: 1 1 220px;
+        text-align: center;
+        transition: transform 0.23s, box-shadow 0.23s;
+        border: 2px solid var(--accent-gold);
+        position: relative;
+    }
+    .feature-card:hover {
+        transform: translateY(-7px) scale(1.04);
+        box-shadow: 0 8px 32px var(--runic-red);
+        border-color: var(--runic-red);
+    }
+    .feature-icon {
+        font-size: 2.4rem;
+        margin-bottom: 15px;
+        color: var(--accent-gold);
+        text-shadow: 0 2px 8px #000b;
+        display: block;
+    }
+    .feature-title {
+        font-size: 1.15rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: var(--accent-gold);
+        font-family: 'UnifrakturCook', serif;
+    }
+    .feature-description {
+        color: #e6e6e6;
+        font-size: 1rem;
+        opacity: 0.92;
+    }
+    .feature-card::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 10px; right: 10px; bottom: 10px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--runic-red), transparent);
+        opacity: 0.22;
+    }
+    .game-info {
+        padding: 32px 24px 24px 24px;
+        background: var(--glass-bg);
+        border-radius: 16px;
+        margin: 40px auto 0 auto;
+        max-width: 700px;
+        color: var(--text-light);
+        box-shadow: 0 2px 16px #000c;
+        border: 2px solid var(--accent-gold);
+    }
+    .game-info h2 {
+        margin-top: 0;
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+        color: var(--accent-gold);
+        text-shadow: 0 2px 8px #000b;
+        font-family: 'UnifrakturCook', serif;
+    }
+    .game-info p {
+        font-size: 1.08rem;
+        color: #efefef;
+        margin-bottom: 8px;
+        text-shadow: 0 2px 8px #000a;
+    }
+    @media (max-width: 900px) {
+        .features-grid {
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 10px;
+        }
+        .feature-card {
+            max-width: 350px;
+        }
+    }
+    @media (max-width: 600px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        .features-grid {
+            padding: 20px 2px;
+        }
+        .feature-card {
+            min-width: 170px;
+            padding: 18px 8px 14px 8px;
+        }
+        .game-info {
+            padding: 18px 6px 10px 6px;
+        }
+    }
+</style>
+</head>
+<body>
+    <main class="landing-main">
+        <section class="hero-section">
+            <h1 class="hero-title">Warborn Unbound</h1>
+            <p class="hero-subtitle">El joc de cartes basat en God of War que et mantindrà en suspens</p>
+        </section>
+
+        <section class="game-info">
+            <h2>Què és Warborn Unbound?</h2>
+            <p>Warborn Unbound és un joc de cartes estratègic basat en l'univers de God of War. Combina elements de combat, estratègia i col·lecció de cartes en un joc competitiu en línia.</p>
+            <p>Crea el teu deck amb les cartes més poderoses, desenvolupa estratègies úniques i demostra el teu domini al camp de batalla!</p>
+        </section>
+
+        <section class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🪓</div>
+                    <h3 class="feature-title">Combat Épic</h3>
+                    <p class="feature-description">Deslliga el poder de la Destral Leviatan i les Espases del Caos en duels plens d'acció.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Honor Nòrdic</h3>
+                    <p class="feature-description">Enfronta't a contricants en línia en taulers inspirats en mitologia i runes ancestrals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Estratègia i Poder</h3>
+                    <p class="feature-description">Combina cartes, habilitats i fúria espartana per dominar el camp de batalla.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-buttons">
+            <button class="cta-button play-button" onclick="window.location.href='auth.html'">Jugar</button>
+            <button class="cta-button register-button" onclick="window.location.href='auth.html'">Registrarse</button>
+        </div>
+    </main>
+</body>
+</html>

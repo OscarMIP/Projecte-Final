@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Perfil</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <div class="profile-container">
+        <header class="profile-header">
+            <div class="back-button" id="backButton">
+                <span class="back-icon">←</span> Tornar al menú
+            </div>
+            <h1>Perfil d'Usuari</h1>
+            <button class="logout-button" id="logoutButton">Tancar Sessió</button>
+        </header>
+        
+        <div class="profile-content">
+            <div class="profile-section user-info">
+                <div class="profile-avatar">
+                    <img src="images/default-avatar.webp" alt="Avatar" id="userAvatar">
+                    <a href="avatar-selector.html" class="change-avatar-button">Canviar avatar</a>
+                </div>
+                <div class="profile-details">
+                    <h2 id="profileUsername">Nom d'usuari</h2>
+                    <p id="profileEmail">correu@exemple.com</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-label">Partides jugades</span>
+                            <span class="stat-value" id="gamesPlayed">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Partides guanyades</span>
+                            <span class="stat-value" id="gamesWon">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Percentatge de victòries</span>
+                            <span class="stat-value" id="winRate">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-tabs">
+                <button class="tab-button active" data-tab="friends">Amics</button>
+                <button class="tab-button" data-tab="requests">Sol·licituds d'amistat</button>
+                <button class="tab-button" data-tab="add">Afegir amics</button>
+            </div>
+            
+            <div class="profile-tab-content">
+                <!-- Lista de amigos -->
+                <div class="tab-panel active" id="friendsPanel">
+                    <div class="friends-list" id="friendsList">
+                        <div class="empty-state">
+                            <p>Encara no tens amics.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Solicitudes de amistad -->
+                <div class="tab-panel" id="requestsPanel">
+                    <div class="friend-requests" id="friendRequests">
+                        <div class="empty-state">
+                            <p>No tens sol·licituds d'amistat pendents.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Añadir amigos -->
+                <div class="tab-panel" id="addPanel">
+                    <div class="add-friend-form">
+                        <div class="form-group">
+                            <label for="searchUsername">Buscar usuari</label>
+                            <div class="search-container">
+                                <input type="text" id="searchUsername" placeholder="Introdueix el nom d'usuari">
+                                <button id="searchButton" class="search-button">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="search-results" id="searchResults">
+                            <!-- Los resultados de búsqueda se mostrarán aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="profile.js"></script>
+</body>
+</html>

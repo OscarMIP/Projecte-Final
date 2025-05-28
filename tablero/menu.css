@@ -1,0 +1,384 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Cinzel', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #3d2323 60%, #6b1c1c 100%), url('images/gow-bg.webp') no-repeat center center fixed;
+    background-blend-mode: multiply;
+    background-size: cover;
+    color: #f1e7e0;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.menu-container {
+    width: 100%;
+    min-height: 0;
+    min-height: 100svh;
+    max-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18px 8px 18px 8px;
+    box-sizing: border-box;
+    background: rgba(30, 20, 20, 0.78);
+    border-radius: 18px 18px 40px 40px/20px 20px 50px 50px;
+    box-shadow: 0 8px 32px 0 #2a0e0e99, 0 2px 12px 0 #0008;
+    border: 2.5px solid #a01c1c;
+    animation: fadeIn 0.5s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto;
+}
+
+.menu-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 40px;
+    gap: 12px;
+}
+
+.game-logo {
+    max-width: 150px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menu-header h1 {
+    font-family: 'Cinzel', 'God of War', 'Montserrat', serif;
+    font-size: 4rem;
+    margin: 0;
+    color: #e63946;
+    text-shadow: 0 0 16px #a01c1c, 0 0 32px #fff2, 0 2px 12px #000b;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    filter: brightness(1.09);
+    border-bottom: 4px double #a01c1c;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+.menu-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.menu-option {
+    width: 300px;
+    background: linear-gradient(120deg, #2a1818 60%, #6b1c1c 100%);
+    border-radius: 18px 18px 28px 28px/16px 16px 32px 32px;
+    padding: 32px 25px 25px 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s, background 0.18s, border 0.18s;
+    border: 2.5px solid #a01c1c;
+    box-shadow: 0 4px 16px 0 #a01c1c44, 0 2px 8px 0 #0008;
+    overflow: hidden;
+    position: relative;
+    /* Efecto de grieta/corte con un borde irregular */
+    
+}
+
+.menu-option::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.1) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    transform: scale(0.5);
+}
+
+.menu-option:hover {
+    transform: scale(1.05) translateY(-6px) rotate(-1deg);
+    box-shadow: 0 12px 32px 0 #e6394688, 0 2px 14px 0 #000a;
+    background: linear-gradient(120deg, #6b1c1c 0%, #a01c1c 100%);
+    border-color: #fff;
+    filter: brightness(1.15);
+    outline: 2px solid #e63946cc;
+    outline-offset: -6px;
+}
+
+.menu-option:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.option-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, #6b1c1c 0%, #a01c1c 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2.5px solid #fff3;
+    box-shadow: 0 2px 12px 0 #a01c1c88;
+    filter: brightness(1.08) contrast(1.1);
+}
+
+.option-icon img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.menu-option h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.7rem;
+    color: #e63946;
+    font-family: 'Cinzel', 'God of War', 'Montserrat', serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-shadow: 0 1px 8px #a01c1c99, 0 0 12px #fff2;
+    text-transform: uppercase;
+    border-bottom: 2px solid #a01c1c;
+    display: inline-block;
+    padding-bottom: 3px;
+}
+
+.menu-option p {
+    margin: 0;
+    font-size: 1rem;
+    color: #f1e7e0;
+    line-height: 1.5;
+    text-shadow: 0 1px 6px #a01c1c44;
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.13);
+    border-radius: 12px;
+    padding: 14px 22px;
+    margin-top: auto;
+    border: 1px solid #ff386b22;
+    box-shadow: 0 2px 8px 0 #ff386b11;
+    /* backdrop-filter: blur(2px); */
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #e63946;
+    margin-right: 15px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+}
+
+.user-details p {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.logout-button {
+    padding: 11px 20px;
+    background: linear-gradient(90deg, #a01c1c 0%, #e63946 100%);
+    border: 2px solid #fff3;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #a01c1c33;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.15s, border 0.18s;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 4px #000a;
+}
+
+.logout-button:hover {
+    background: linear-gradient(90deg, #e63946 0%, #a01c1c 100%);
+    box-shadow: 0 6px 24px #e6394688;
+    border-color: #e63946;
+    transform: scale(1.08);
+    outline: 2px solid #fff8;
+}
+
+/* Submenu styles */
+.submenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.submenu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.submenu-content {
+    background: linear-gradient(120deg, #2a1818 60%, #6b1c1c 100%);
+    border-radius: 14px 14px 32px 32px/12px 12px 28px 28px;
+    padding: 38px 22px;
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #a01c1c;
+    box-shadow: 0 2px 12px 0 #a01c1c88;
+}
+
+.submenu-content h2 {
+    margin: 0 0 30px 0;
+    font-size: 2.1rem;
+    color: #e63946;
+    font-family: 'Cinzel', 'God of War', 'Montserrat', serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-shadow: 0 1px 8px #a01c1c99, 0 0 12px #fff2;
+    text-transform: uppercase;
+    border-bottom: 2px solid #a01c1c;
+    display: inline-block;
+    padding-bottom: 3px;
+}
+
+.submenu-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.submenu-option {
+    flex: 1;
+    background: linear-gradient(120deg, #2a1818 60%, #6b1c1c 100%);
+    border-radius: 12px 12px 22px 22px/8px 8px 18px 18px;
+    padding: 20px 12px;
+    cursor: pointer;
+    transition: transform 0.15s cubic-bezier(.4,0,.2,1), box-shadow 0.15s, background 0.15s, border 0.15s;
+    border: 2px solid #a01c1c;
+    max-width: 300px;
+    box-shadow: 0 2px 8px #a01c1c44;
+}
+
+.submenu-option:hover {
+    transform: scale(1.04) translateY(-4px);
+    background: linear-gradient(120deg, #a01c1c 0%, #e63946 100%);
+    border-color: #fff;
+    box-shadow: 0 6px 24px #e6394688;
+    outline: 2px solid #e63946cc;
+    outline-offset: -6px;
+}
+
+.submenu-option h3 {
+    margin: 10px 0;
+    font-size: 1.3rem;
+    color: white;
+}
+
+.submenu-option p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.close-submenu-button {
+    padding: 12px 25px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.close-submenu-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .menu-container {
+        padding: 8px 2vw 8px 2vw;
+        min-height: 0;
+        max-height: 100svh;
+    }
+    .menu-header h1 {
+        font-size: 2.2rem;
+        padding-bottom: 4px;
+    }
+    .game-logo {
+        max-width: 100px;
+        margin-bottom: 6px;
+    }
+    .menu-option {
+        width: 98%;
+        max-width: 350px;
+        padding: 18px 6px 12px 6px;
+    }
+    .submenu-content {
+        padding: 18px 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-header h1 {
+        font-size: 1.3rem;
+        padding-bottom: 1px;
+    }
+    .game-logo {
+        max-width: 70px;
+        margin-bottom: 3px;
+    }
+    .menu-option {
+        width: 100%;
+        max-width: 98vw;
+        padding: 10px 2px 8px 2px;
+    }
+    .submenu-content {
+        padding: 8px 2px;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-container {
+    animation: fadeIn 0.5s ease-out;
+}

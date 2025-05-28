@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Menú Principal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+    <div class="menu-container">
+        <div class="menu-header">
+            <img src="images/logo.png" alt="Warborn Unbound Logo" class="game-logo">
+            <h1>Warborn Unbound</h1>
+            <p class="subtitle">Joc de cartes de God of War</p>
+        </div>
+        
+        <div class="menu-options">
+            <div class="menu-option" id="playOption">
+                <div class="option-icon">
+                    <img src="images/play-icon.webp" alt="Jugar">
+                </div>
+                <h2>Jugar</h2>
+                <p>Inicia una partida local o multijugador online</p>
+            </div>
+            
+            <div class="menu-option" id="profileOption">
+                <div class="option-icon">
+                    <img src="images/profile-icon.webp" alt="Mi Perfil">
+                </div>
+                <h2>El meu Perfil</h2>
+                <p>Consulta les teves estadístiques i gestiona el teu compte</p>
+            </div>
+            
+            <div class="menu-option" id="friendsOption">
+                <div class="option-icon">
+                    <img src="images/friends-icon.webp" alt="Amigos">
+                </div>
+                <h2>Amics</h2>
+                <p>Gestiona la teva llista d'amics i sol·licituds</p>
+            </div>
+            
+            <div class="menu-option" id="cardsOption">
+                <div class="option-icon">
+                    <img src="images/cards-icon.webp" alt="Cartas">
+                </div>
+                <h2>Cartes</h2>
+                <p>Explora totes les cartes disponibles al joc</p>
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar">
+                <img src="images/default-avatar.webp" alt="Avatar" id="userAvatar">
+            </div>
+            <div class="user-details">
+                <h3 id="usernameDisplay">Nom d'usuari</h3>
+                <p><span id="gamesWonDisplay">0</span> victòries / <span id="gamesPlayedDisplay">0</span> partides</p>
+            </div>
+            <button id="logoutButton" class="logout-button">Tancar Sessió</button>
+        </div>
+    </div>
+    
+    <div class="submenu" id="playSubmenu">
+        <div class="submenu-content">
+            <h2>Selecciona mode de joc</h2>
+            <div class="submenu-options">
+                <div class="submenu-option" id="localGameOption">
+                    <div class="option-icon">
+                        <img src="images/local-icon.webp" alt="Partida Local">
+                    </div>
+                    <h3>Partida Local</h3>
+                    <p>Juga contra la IA en el mateix dispositiu</p>
+                </div>
+                
+                <div class="submenu-option" id="onlineGameOption">
+                    <div class="option-icon">
+                        <img src="images/online-icon.webp" alt="Partida Online">
+                    </div>
+                    <h3>Partida Online</h3>
+                    <p>Juga contra altres jugadors en línia</p>
+                </div>
+            </div>
+            <button class="close-submenu-button">Tornar</button>
+        </div>
+    </div>
+    
+    <script src="user.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>

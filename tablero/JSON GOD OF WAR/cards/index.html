@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God of War Character Cards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cards-container" id="cardsContainer">
+        <!-- Cards will be generated here -->
+    </div>
+    <script>
+        const STATS_MAX = {
+            health: 1500,
+            attackPower: 100,
+            specialAbility: 200
+        };
+
+        async function loadCharacters() {
+            try {
+                const response = await fetch('../characters.json');
+                const characters = await response.json();
+                const container = document.getElementById('cardsContainer');
+
+                characters.forEach(character => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            <div class="info-icon">i</div>
+                            <div class="info-content">${character.info || 'No information available'}</div>
+                            <div class="character-image">
+                                <div class="type-indicator ${character.type}"></div>
+                                <img src="../${character.img}" alt="${character.character}">
+                                <h2 class="character-name">${character.character}</h2>
+                                <div class="stats-overlay">
+                                    <div class="stat-bar">
+                                        <div class="bar-container">
+                                            <div class="bar health-bar" style="width: ${(character.health / STATS_MAX.health) * 100}%">
+                                                <span class="stat-value">${character.health}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-container">
+                                            <div class="bar attack-bar" style="width: ${(character.attackPower / STATS_MAX.attackPower) * 100}%">
+                                                <span class="stat-value">${character.attackPower}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-container">
+                                            <div class="bar special-bar" style="width: ${(character.specialAbility.value / STATS_MAX.specialAbility) * 100}%">
+                                                <span class="stat-value">${character.specialAbility.value}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-frame"></div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading characters:', error);
+            }
+        }
+
+        loadCharacters();
+    </script>
+</body>
+</html>

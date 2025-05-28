@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Partida Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cards.css">
+    <style>
+        .game-header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+        }
+        
+        .room-info {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .room-code {
+            font-weight: bold;
+            color: #e63946;
+        }
+        
+        .turn-indicator {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .turn-indicator.your-turn {
+            background: rgba(230, 57, 70, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .exit-button {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .exit-button:hover {
+            background: rgba(230, 57, 70, 0.7);
+        }
+        
+        .waiting-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .waiting-message {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #e63946;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification.success {
+            background: #2ecc71;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .notification.info {
+            background: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <div class="room-info">
+            Sala: <span class="room-code" id="roomCodeDisplay">------</span>
+        </div>
+        <div class="turn-indicator" id="turnIndicator">Esperant...</div>
+        <button class="exit-button" id="exitButton">Sortir</button>
+    </div>
+
+    <div class="game-board">
+        <!-- Área del jugador izquierdo (tú) -->
+        <div class="player-area left-player">
+            <div class="player-info-bar">
+                <div class="player-avatar"></div>
+                <div class="player-details">
+                    <span class="player-name" id="playerOneName">Jugador 1</span>
+                    <div class="player-stats">
+                        <span class="cards-count"><i class="card-icon"></i> <span id="playerOneCardCount">5</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="cards-area player-one">
+                <!-- Las cartas se generarán dinámicamente -->
+            </div>
+            <div class="buttons-area">
+                <button class="game-button special-button" id="specialButtonLeft">
+                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                </button>
+                <button class="game-button attack-button" id="attackButtonLeft">
+                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                </button>
+            </div>
+        </div>
+
+        <!-- Área del jugador derecho (oponente) -->
+        <div class="player-area right-player">
+            <div class="player-info-bar">
+                <div class="player-details">
+                    <span class="player-name" id="playerTwoName">Jugador 2</span>
+                    <div class="player-stats">
+                        <span class="cards-count"><i class="card-icon"></i> <span id="playerTwoCardCount">5</span></span>
+                    </div>
+                </div>
+                <div class="player-avatar player-avatar-right"></div>
+            </div>
+            <div class="cards-area player-two">
+                <!-- Las cartas se generarán dinámicamente -->
+            </div>
+            <div class="buttons-area">
+                <button class="game-button special-button" id="specialButtonRight">
+                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                </button>
+                <button class="game-button attack-button" id="attackButtonRight">
+                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="waiting-overlay" id="waitingOverlay">
+        <div class="waiting-message" id="waitingMessage">Esperant a que comenci la partida...</div>
+        <div class="spinner"></div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="user.js"></script>
+    <script src="cards.js"></script>
+    <script src="game-online.js"></script>
+</body>
+</html>

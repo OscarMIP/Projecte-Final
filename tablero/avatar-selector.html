@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Seleccionar Avatar</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="avatar-selector.css">
+</head>
+<body>
+    <div class="avatar-container">
+        <header class="avatar-header">
+            <a href="profile.html" class="back-button">
+                <span class="back-icon">←</span> Tornar al Perfil
+            </a>
+            <h1>Selecciona el teu Avatar</h1>
+        </header>
+        
+        <div class="avatar-content">
+            <div class="avatar-section">
+                <h2>Avatars de God of War</h2>
+                <p>Escull un dels personatges com a avatar</p>
+                
+                <div class="default-avatars" id="defaultAvatars">
+                    <!-- Los avatares predefinidos se cargarán dinámicamente -->
+                </div>
+            </div>
+            
+            <div class="avatar-section">
+                <h2>Puja el teu propi avatar</h2>
+                <p>Puja una imatge des del teu dispositiu</p>
+                
+                <div class="custom-avatar-upload">
+                    <div class="avatar-preview-container">
+                        <div class="avatar-preview">
+                            <img id="avatarPreview" src="images/default-avatar.webp" alt="Avatar Preview">
+                        </div>
+                    </div>
+                    
+                    <div class="upload-controls">
+                        <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                        <button id="uploadButton" class="upload-button">Seleccionar imatge</button>
+                        <button id="saveAvatarButton" class="save-button" disabled>Guardar avatar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="avatar-footer">
+            <p>L'avatar es mostrarà al teu perfil i durant les partides</p>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="user.js"></script>
+    <script src="avatars.js"></script>
+    <script src="avatar-selector.js"></script>
+</body>
+</html>

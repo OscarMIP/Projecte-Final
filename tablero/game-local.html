@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warborn Unbound - Partida Local</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cards.css">
+    <style>
+        .game-header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+        }
+        
+        .turn-indicator {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .turn-indicator.your-turn {
+            background: rgba(230, 57, 70, 0.7);
+            animation: pulse 1.5s infinite;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .exit-button {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .exit-button:hover {
+            background: rgba(230, 57, 70, 0.7);
+        }
+        
+        .waiting-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .waiting-message {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .join-button {
+            background: #e63946;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .join-button:hover {
+            background: #c1121f;
+            transform: scale(1.05);
+        }
+        
+        .login-options {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .login-options.show {
+            display: flex;
+        }
+        
+        .login-option-button {
+            background: #3a86ff;
+            color: white;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-option-button:hover {
+            background: #2667ff;
+            transform: scale(1.03);
+        }
+        
+        .login-option-button.guest {
+            background: #8338ec;
+        }
+        
+        .login-option-button.guest:hover {
+            background: #6a2ec7;
+        }
+        
+        .login-form {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        
+        .login-form.show {
+            display: flex;
+        }
+        
+        .login-form input {
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .login-form button {
+            background: #3a86ff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-form button:hover {
+            background: #2667ff;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .login-options h3, .login-form h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .login-option-button.cancel {
+            background: rgba(80, 0, 0, 0.7);
+            margin-top: 10px;
+        }
+        
+        .login-option-button.cancel:hover {
+            background: rgba(120, 0, 0, 0.9);
+        }
+        
+        .turn-announcement {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(230, 57, 70, 0.5);
+            color: white;
+            text-align: center;
+        }
+        
+        .turn-announcement h2 {
+            font-size: 2rem;
+            margin: 0;
+            color: #e63946;
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+        
+        .player-turn {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            background: rgba(230, 57, 70, 0.7);
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        #startGameButton {
+            background: #2ecc71;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #startGameButton:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #e63946;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification.success {
+            background: #2ecc71;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .notification.info {
+            background: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <div class="turn-indicator" id="turnIndicator">Esperant...</div>
+        <button class="exit-button" id="exitButton">Sortir</button>
+    </div>
+
+    <div class="game-board">
+        <!-- Área del jugador izquierdo (tú) -->
+        <div class="player-area left-player">
+            <div class="player-info-bar">
+                <div class="player-avatar"></div>
+                <div class="player-details">
+                    <span class="player-name" id="playerOneName">Jugador 1</span>
+                    <div class="player-stats">
+                        <span class="cards-count"><i class="card-icon"></i> <span id="playerOneCardCount">5</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="cards-area player-one">
+                <!-- Las cartas se generarán dinámicamente -->
+            </div>
+            <div class="buttons-area">
+                <button class="game-button special-button" id="specialButtonLeft">
+                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                </button>
+                <button class="game-button attack-button" id="attackButtonLeft">
+                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                </button>
+            </div>
+        </div>
+
+        <!-- Área del jugador derecho (oponente) -->
+        <div class="player-area right-player">
+            <div class="player-info-bar">
+                <div class="player-details">
+                    <span class="player-name" id="playerTwoName">Jugador 2</span>
+                    <div class="player-stats">
+                        <span class="cards-count"><i class="card-icon"></i> <span id="playerTwoCardCount">5</span></span>
+                    </div>
+                </div>
+                <div class="player-avatar player-avatar-right"></div>
+            </div>
+            <div class="cards-area player-two">
+                <!-- Las cartas se generarán dinámicamente -->
+            </div>
+            <div class="buttons-area">
+                <button class="game-button special-button" id="specialButtonRight">
+                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                </button>
+                <button class="game-button attack-button" id="attackButtonRight">
+                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="waiting-overlay" id="waitingOverlay">
+        <div class="waiting-message" id="waitingMessage">Esperando al segundo jugador...</div>
+        <div class="player-join-area">
+            <button class="join-button" id="joinButton">Unirse a la partida</button>
+        </div>
+        
+        <div class="login-options" id="loginOptions">
+            <h3>Selecciona una opción</h3>
+            <button class="login-option-button" id="guestButton">Jugar como invitado</button>
+            <button class="login-option-button" id="loginButton">Iniciar sesión</button>
+            <button class="login-option-button cancel" id="cancelLoginButton">Cancelar</button>
+        </div>
+        
+        <div class="turn-announcement" id="turnAnnouncement">
+            <h2>¡Partida lista!</h2>
+            <div class="player-turn" id="firstPlayerTurn">Empieza el Jugador 1</div>
+            <button id="startGameButton">¡Comenzar!</button>
+        </div>
+        
+        <div class="login-form" id="loginForm">
+            <h3>Iniciar sesión como Jugador 2</h3>
+            <input type="text" id="usernameInput" placeholder="Nombre de usuario">
+            <input type="password" id="passwordInput" placeholder="Contraseña">
+            <div class="form-buttons">
+                <button id="submitLoginButton">Iniciar Sesión</button>
+                <button id="backToOptionsButton">Volver</button>
+            </div>
+        </div>
+        
+        <div class="turn-announcement" id="turnAnnouncement">
+            <h2>¡Comienza la partida!</h2>
+            <div class="player-turn" id="firstPlayerTurn"></div>
+            <button id="startGameButton">¡Comenzar!</button>
+        </div>
+        
+        <div class="spinner" id="spinner" style="display: none;"></div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+
+    <!-- Modal de fin de partida -->
+    <div id="endgame-modal" class="endgame-modal" style="display:none;">
+      <div class="endgame-modal-content">
+        <h2>¿Quieres volver a jugar?</h2>
+        <div class="endgame-modal-buttons">
+          <button id="btn-restart">Volver a jugar</button>
+          <button id="btn-exit">Salir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmació de sortida -->
+    <div id="exitModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <h2>Confirmar sortida</h2>
+        <p>Estàs segur que vols sortir de la partida?</p>
+        <div class="modal-actions">
+          <button id="confirmExit">Sortir</button>
+          <button id="cancelExit">Cancel·lar</button>
+        </div>
+      </div>
+    </div>
+    <style>
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: #222;
+      color: #fff;
+      padding: 2.5em 2em 2em 2em;
+      border-radius: 12px;
+      box-shadow: 0 2px 20px #000a;
+      min-width: 320px;
+      text-align: center;
+    }
+    .modal-actions {
+      margin-top: 2em;
+      display: flex;
+      gap: 1.5em;
+      justify-content: center;
+    }
+    .modal-actions button {
+      padding: 0.7em 2.2em;
+      border-radius: 6px;
+      border: none;
+      background: #B71C1C;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-actions button:hover {
+      background: #d32f2f;
+    }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const exitModal = document.getElementById('exitModal');
+      const confirmExit = document.getElementById('confirmExit');
+      const cancelExit = document.getElementById('cancelExit');
+      const exitButton = document.getElementById('exitButton');
+
+
+      if (confirmExit) {
+        confirmExit.onclick = function() {
+          window.location.href = 'index.html';
+        };
+      }
+      if (cancelExit) {
+        cancelExit.onclick = function() {
+          exitModal.style.display = 'none';
+        };
+      }
+    });
+    </script>
+
+    <script src="user.js"></script>
+    <script src="cards.js"></script>
+    <script src="game-local.js"></script>
+</body>
+</html>

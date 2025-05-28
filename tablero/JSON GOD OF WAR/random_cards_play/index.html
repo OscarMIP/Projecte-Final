@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random God of War Cards</title>
+    <link rel="stylesheet" href="../cards/style.css">
+    <style>
+        .button-container {
+            text-align: center;
+            margin: 20px;
+        }
+        .generate-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #4a1010;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .generate-button:hover {
+            background-color: #6a1515;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button class="generate-button" onclick="generateRandomCards()">Generate 10 Random Cards</button>
+    </div>
+    <div class="cards-container" id="cardsContainer">
+        <!-- Random cards will be generated here -->
+    </div>
+    <script>
+        const STATS_MAX = {
+            health: 1500,
+            attackPower: 100,
+            specialAbility: 200
+        };
+
+        function getRandomNumbers(min, max, count) {
+            const numbers = new Set();
+            while(numbers.size < count) {
+                numbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
+            }
+            return Array.from(numbers);
+        }
+
+        async function generateRandomCards() {
+            try {
+                const response = await fetch('../characters.json');
+                const characters = await response.json();
+                const container = document.getElementById('cardsContainer');
+                container.innerHTML = ''; // Clear previous cards
+
+                // Generate 10 random unique numbers between 1 and 60
+                const randomIds = getRandomNumbers(1, 60, 10);
+
+                randomIds.forEach(id => {
+                    const character = characters[id - 1]; // Adjust for 0-based array
+                    if (!character) return;
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            <div class="info-icon">i</div>
+                            <div class="info-content">${character.info || 'No information available'}</div>
+                            <div class="character-image">
+                                <div class="type-indicator ${character.type}"></div>
+                                <img src="../${character.img}" alt="${character.character}">
+                                <h2 class="character-name">${character.character}</h2>
+                                <div class="stats-overlay">
+                                    <div class="stat-bar">
+                                        <div class="bar-container">
+                                            <div class="bar health-bar" style="width: ${(character.health / STATS_MAX.health) * 100}%">
+                                                <span class="stat-value">${character.health}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-container">
+                                            <div class="bar attack-bar" style="width: ${(character.attackPower / STATS_MAX.attackPower) * 100}%">
+                                                <span class="stat-value">${character.attackPower}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-container">
+                                            <div class="bar special-bar" style="width: ${(character.specialAbility.value / STATS_MAX.specialAbility) * 100}%">
+                                                <span class="stat-value">${character.specialAbility.value}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-frame"></div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading characters:', error);
+            }
+        }
+    </script>
+</body>
+</html>

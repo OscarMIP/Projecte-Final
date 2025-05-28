@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God of War Game Table</title>
+    <link rel="stylesheet" href="../cards/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-table {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1400px;
+            gap: 100px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .carousel-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            overflow: hidden;
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        .carousel .card {
+            min-width: 400px;
+            display: flex;
+            justify-content: center;
+        }
+        .carousel-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .carousel-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .carousel-button:hover {
+            background: #444;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+            cursor: pointer;
+        }
+        .dot.active {
+            background: #666;
+        }
+        .icons-row {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-table">
+        <div class="column">
+            <div class="carousel-container">
+                <div class="carousel" id="leftCarousel">
+                    <!-- Left side cards will be generated here -->
+                </div>
+                <div class="carousel-dots" id="leftDots"></div>
+            </div>
+            <div class="carousel-buttons">
+                <button class="carousel-button" onclick="moveCarousel('left', -1)">←</button>
+                <button class="carousel-button" onclick="moveCarousel('left', 1)">→</button>
+            </div>
+            <div class="icons-row">
+                <img src="../icons/specialability_icon.webp" alt="Special Ability" class="icon">
+                <img src="../icons/attackpower_icon.webp" alt="Attack Power" class="icon">
+            </div>
+        </div>
+        <div class="column">
+            <div class="carousel-container">
+                <div class="carousel" id="rightCarousel">
+                    <!-- Right side cards will be generated here -->
+                </div>
+                <div class="carousel-dots" id="rightDots"></div>
+            </div>
+            <div class="carousel-buttons">
+                <button class="carousel-button" onclick="moveCarousel('right', -1)">←</button>
+                <button class="carousel-button" onclick="moveCarousel('right', 1)">→</button>
+            </div>
+            <div class="icons-row">
+                <img src="../icons/specialability_icon.webp" alt="Special Ability" class="icon">
+                <img src="../icons/attackpower_icon.webp" alt="Attack Power" class="icon">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPositions = {
+            left: 0,
+            right: 0
+        };
+
+        function moveCarousel(side, direction) {
+            const carousel = document.getElementById(side + 'Carousel');
+            const cards = carousel.children.length;
+            
+            currentPositions[side] = (currentPositions[side] + direction + cards) % cards;
+            
+            carousel.style.transform = `translateX(${-currentPositions[side] * 400}px)`;
+            
+            // Update dots
+            updateDots(side);
+        }
+
+        function updateDots(side) {
+            const dots = document.querySelectorAll(`#${side}Dots .dot`);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentPositions[side]);
+            });
+        }
+
+        function goToSlide(side, index) {
+            currentPositions[side] = index;
+            const carousel = document.getElementById(side + 'Carousel');
+            carousel.style.transform = `translateX(${-index * 400}px)`;
+            updateDots(side);
+        }
+
+        async function loadCharacters() {
+            try {
+                const response = await fetch('../characters.json');
+                const characters = await response.json();
+                
+                // Select 10 random unique characters
+                const shuffled = characters.sort(() => 0.5 - Math.random());
+                const selectedCharacters = shuffled.slice(0, 10);
+                
+                const leftCarousel = document.getElementById('leftCarousel');
+                const rightCarousel = document.getElementById('rightCarousel');
+                const leftDots = document.getElementById('leftDots');
+                const rightDots = document.getElementById('rightDots');
+
+                // First 5 characters go to left carousel
+                selectedCharacters.slice(0, 5).forEach((character, index) => {
+                    const card = createCard(character);
+                    leftCarousel.appendChild(card);
+                    
+                    const dot = document.createElement('div');
+                    dot.className = 'dot' + (index === 0 ? ' active' : '');
+                    dot.onclick = () => goToSlide('left', index);
+                    leftDots.appendChild(dot);
+                });
+
+                // Last 5 characters go to right carousel
+                selectedCharacters.slice(5).forEach((character, index) => {
+                    const card = createCard(character);
+                    rightCarousel.appendChild(card);
+                    
+                    const dot = document.createElement('div');
+                    dot.className = 'dot' + (index === 0 ? ' active' : '');
+                    dot.onclick = () => goToSlide('right', index);
+                    rightDots.appendChild(dot);
+                });
+            } catch (error) {
+                console.error('Error loading characters:', error);
+            }
+        }
+
+        function createCard(character) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="info-icon">i</div>
+                    <div class="info-content">${character.info || 'No information available'}</div>
+                    <div class="character-image">
+                        <div class="type-indicator ${character.type}"></div>
+                        <img src="../${character.img}" alt="${character.character}">
+                        <h2 class="character-name">${character.character}</h2>
+                        <div class="stats-overlay">
+                            <div class="stat-bar">
+                                <div class="bar-container">
+                                    <div class="bar health-bar" style="width: ${(character.health / 1500) * 100}%">
+                                        <span class="stat-value">${character.health}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="bar-container">
+                                    <div class="bar attack-bar" style="width: ${(character.attackPower / 100) * 100}%">
+                                        <span class="stat-value">${character.attackPower}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="bar-container">
+                                    <div class="bar special-bar" style="width: ${(character.specialAbility.value / 200) * 100}%">
+                                        <span class="stat-value">${character.specialAbility.value}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-frame"></div>
+            `;
+            return card;
+        }
+
+        loadCharacters();
+    </script>
+</body>
+</html>

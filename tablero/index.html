@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cards.css">
+    <style>
+        .footer-buttons {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+    z-index: 3000;
+    background: rgba(30, 30, 40, 0.92);
+    border-radius: 22px;
+    padding: 18px 44px 18px 44px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.45);
+    align-items: center;
+    min-width: 320px;
+}
+
+.footer-buttons button {
+    font-size: 1.18rem;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #232526 0%, #414345 100%);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 1px;
+}
+
+.footer-buttons button:hover {
+    background: linear-gradient(90deg, #e63946 0%, #ff6f61 100%);
+    color: #fff;
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 8px 24px rgba(230,57,70,0.18);
+}
+
+@media (max-width: 900px) {
+  .footer-buttons {
+    padding: 10px 8vw;
+    gap: 18px;
+    min-width: 0;
+  }
+  .footer-buttons button {
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-buttons {
+    flex-direction: column;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    padding: 10px 2vw;
+    gap: 12px;
+    border-radius: 18px;
+  }
+  .footer-buttons button {
+    width: 100%;
+    min-width: 120px;
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+}
+
+
+        
+        .profile-button, .multiplayer-button, .exit-button {
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-button:hover, .multiplayer-button:hover, .exit-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .exit-button {
+            background: rgba(50, 0, 0, 0.7);
+        }
+        
+        .exit-button:hover {
+            background: rgba(80, 0, 0, 0.9);
+            box-shadow: 0 5px 15px rgba(80, 0, 0, 0.4);
+        }
+        
+        .multiplayer-button {
+            background: rgba(0, 30, 60, 0.7);
+        }
+        
+        .multiplayer-button:hover {
+            background: rgba(0, 50, 100, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 50, 100, 0.4);
+        }
+        
+        .game-title {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-family: 'God of War', sans-serif;
+            font-size: 1.5rem;
+            color: rgba(230, 57, 70, 0.7);
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
+            z-index: 100;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .game-title:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="game-title">Warborn Unbound</h1>
+    <div class="footer-buttons">
+    <button class="exit-button" id="exitButton">Sortir</button>
+    <button class="multiplayer-button" id="multiplayerButton">Multijugador</button>
+    <button class="profile-button" id="profileButton">Perfil</button>
+</div>
+    
+    <div class="game-board">
+        <!-- Área del jugador izquierdo -->
+        <div class="player-area left-player">
+            <div class="player-info-bar">
+                <div class="player-avatar"></div>
+                <div class="player-details">
+                    <span class="player-name">Jugador 1</span>
+                    <div class="player-stats">
+                        <span class="cards-count"><i class="card-icon"></i> 5</span>
+                        <span class="player-health"><i class="health-icon"></i> 100</span>
+                    </div>
+                </div>
+            </div>
+            <div class="cards-area player-one">
+                <!-- Las cartas se generarán dinámicamente -->
+            </div>
+            <div class="buttons-area">
+                <button class="game-button special-button" id="specialButtonLeft">
+                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                </button>
+                <button class="game-button attack-button" id="attackButtonLeft">
+                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                </button>
+            </div>
+        </div>
+
+        <!-- Área del jugador derecho -->
+        <div class="player-area right-player">
+            <div class="player-info-bar">
+                <div class="player-details">
+                    <span class="player-name">Jugador 2</span>
+                    <div class="player-stats">
+                        <span class="cards-count"><i class="card-icon"></i> 5</span>
+                        <span class="player-health"><i class="health-icon"></i> 100</span>
+                    </div>
+                </div>
+                <div class="player-avatar player-avatar-right"></div>
+            </div>
+            <div class="cards-area player-two">
+                <!-- Las cartas se generarán dinámicamente -->
+            </div>
+            <div class="buttons-area">
+                <button class="game-button special-button" id="specialButtonRight">
+                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                </button>
+                <button class="game-button attack-button" id="attackButtonRight">
+                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="user.js"></script>
+    <script src="cards.js"></script>
+    <script src="script.js"></script>
+    
+    <div class="multiplayer-modal" id="multiplayerModal" style="display: none;">
+        <div class="multiplayer-options">
+            <h2>Selecciona modo de juego</h2>
+            <button id="localButton">Partida Local</button>
+            <button id="onlineButton">Partida Online</button>
+            <button id="cancelButton">Cancelar</button>
+        </div>
+    </div>
+
+    <style>
+        .multiplayer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .multiplayer-options {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(230, 57, 70, 0.5);
+            border-radius: 10px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 300px;
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.3);
+        }
+        
+        .multiplayer-options h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .multiplayer-options button {
+            padding: 12px;
+            background: rgba(50, 50, 50, 0.8);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .multiplayer-options button:hover {
+            background: rgba(230, 57, 70, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        #localButton {
+            background: rgba(0, 80, 120, 0.7);
+        }
+        
+        #onlineButton {
+            background: rgba(0, 120, 80, 0.7);
+        }
+        
+        #cancelButton {
+            background: rgba(80, 0, 0, 0.7);
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        // Añadir evento al botón de perfil
+        document.getElementById('profileButton').addEventListener('click', function() {
+            window.location.href = 'profile.html';
+        });
+        
+        // Añadir evento al botón de multijugador para mostrar opciones
+        document.getElementById('multiplayerButton').addEventListener('click', function() {
+            document.getElementById('multiplayerModal').style.display = 'flex';
+        });
+        
+        // Botón de partida local
+        document.getElementById('localButton').addEventListener('click', function() {
+            window.location.href = 'game-local.html';
+        });
+        
+        // Botón de partida online
+        document.getElementById('onlineButton').addEventListener('click', function() {
+            window.location.href = 'lobby.html';
+        });
+        
+        // Botón de cancelar
+        document.getElementById('cancelButton').addEventListener('click', function() {
+            document.getElementById('multiplayerModal').style.display = 'none';
+        });
+        
+        // Añadir evento al botón de salir
+        document.getElementById('exitButton').addEventListener('click', function() {
+            if (confirm('Segur que vols sortir de la partida?')) {
+                window.location.href = 'menu.html';
+            }
+        });
+    </script>
+  <!-- Modal de fin de partida -->
+  <div id="endgame-modal" class="endgame-modal" style="display:none;">
+    <div class="endgame-modal-content">
+      <h2>¿Quieres volver a jugar?</h2>
+      <div class="endgame-modal-buttons">
+        <button id="btn-restart">Volver a jugar</button>
+        <button id="btn-exit">Salir</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal de fin de partida -->
+  <div id="endgame-modal" class="endgame-modal" style="display:none;">
+    <div class="endgame-modal-content">
+      <h2>¿Quieres volver a jugar?</h2>
+      <div class="endgame-modal-buttons">
+        <button id="btn-restart">Volver a jugar</button>
+        <button id="btn-exit">Salir</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
