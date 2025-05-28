@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el gestor de usuarios
-    const userManager = new UserManager();
+    const userManager = new UserManagerJSON();
     
     // Inicializar el gestor de avatares
     const avatarManager = new AvatarManager();
@@ -14,12 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Referencias a los elementos del DOM
-    const profileUsername = document.getElementById('profileUsername');
-    const profileEmail = document.getElementById('profileEmail');
+    const usernameInput = document.getElementById('usernameInput');
+    const emailInput = document.getElementById('emailInput');
     const gamesPlayed = document.getElementById('gamesPlayed');
     const gamesWon = document.getElementById('gamesWon');
     const winRate = document.getElementById('winRate');
     const userAvatar = document.getElementById('userAvatar');
+    const avatarInput = document.getElementById('avatarInput');
+    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
     const friendsList = document.getElementById('friendsList');
@@ -31,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const backButton = document.getElementById('backButton');
     if (backButton) {
         backButton.onclick = function() {
-            window.history.back();
+            window.location.href = 'menu.html';
         };
     }
     const searchResults = document.getElementById('searchResults');
@@ -39,37 +41,51 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mostrar información del usuario
     // Mostrar información del usuario
-    profileUsername.textContent = currentUser.username || '';
-    profileEmail.textContent = currentUser.email || '';
+    // Rellenar campos editables
+    usernameInput.value = currentUser.username || '';
+    emailInput.value = currentUser.email || '';
 
-    // Mostrar estadísticas desde localStorage por usuario si existen
-    let statsByUser = JSON.parse(localStorage.getItem('warbornStatsByUser')) || {};
-    let stats = statsByUser[currentUser.id];
-    if (!stats) {
-        stats = currentUser.stats || { gamesPlayed: 0, gamesWon: 0 };
-    }
+    // Mostrar estadísticas desde JSON
+    const stats = currentUser.stats || { gamesPlayed: 0, gamesWon: 0 };
     gamesPlayed.textContent = stats.gamesPlayed;
     gamesWon.textContent = stats.gamesWon;
-
-    gamesWon.textContent = currentUser.stats.gamesWon;
     
-    // Cargar avatar del usuario
-    const userAvatarContainer = document.querySelector('.profile-avatar');
-    if (userAvatarContainer) {
-        // Aplicar el avatar como imagen de fondo al contenedor
-        const success = avatarManager.applyAvatarToElement(currentUser.id, userAvatarContainer);
-        console.log('Aplicando avatar en perfil:', success);
-        
-        // Ocultar la imagen dentro del contenedor ya que usamos background-image
-        if (userAvatar) {
-            userAvatar.style.opacity = '0';
-        }
-        
-        // Añadir un borde para que el avatar se vea mejor
-        userAvatarContainer.style.border = '2px solid #e63946';
-        userAvatarContainer.style.borderRadius = '50%';
-        userAvatarContainer.style.overflow = 'hidden';
+    // Mostrar avatar del usuario
+    if (currentUser.profilePic) {
+        userAvatar.src = currentUser.profilePic;
     }
+    
+    // Guardar cambios en el perfil
+    const profileForm = document.getElementById('profileForm');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    profileForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        saveProfileBtn.disabled = true;
+        const newUsername = usernameInput.value.trim();
+        const newEmail = emailInput.value.trim();
+        let newProfilePic = userAvatar.src;
+        // Actualizar datos
+        const res = await userManager.updateProfile({ username: newUsername, email: newEmail, profilePic: newProfilePic });
+        if (res.success) {
+            showNotification('Perfil actualitzat correctament', 'success');
+        } else {
+            showNotification('Error al actualitzar el perfil', 'error');
+        }
+        saveProfileBtn.disabled = false;
+    });
+
+    // Cambiar avatar
+    changeAvatarBtn.addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                userAvatar.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
     
     // Escuchar cambios en el avatar (desde otras páginas)
     window.addEventListener('storage', function(event) {

@@ -19,29 +19,33 @@
         
         <div class="profile-content">
             <div class="profile-section user-info">
-                <div class="profile-avatar">
-                    <img src="images/default-avatar.webp" alt="Avatar" id="userAvatar">
-                    <a href="avatar-selector.html" class="change-avatar-button">Canviar avatar</a>
-                </div>
-                <div class="profile-details">
-                    <h2 id="profileUsername">Nom d'usuari</h2>
-                    <p id="profileEmail">correu@exemple.com</p>
-                    <div class="stats-container">
-                        <div class="stat-item">
-                            <span class="stat-label">Partides jugades</span>
-                            <span class="stat-value" id="gamesPlayed">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Partides guanyades</span>
-                            <span class="stat-value" id="gamesWon">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Percentatge de victòries</span>
-                            <span class="stat-value" id="winRate">0%</span>
-                        </div>
-                    </div>
-                </div>
+    <div class="profile-avatar">
+        <img src="images/default-avatar.webp" alt="Avatar" id="userAvatar">
+        <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+        <button id="changeAvatarBtn" class="change-avatar-button">Canviar avatar</button>
+    </div>
+    <form class="profile-details" id="profileForm">
+        <label for="usernameInput">Nom d'usuari</label>
+        <input type="text" id="usernameInput" name="username" required>
+        <label for="emailInput">Correu electrònic</label>
+        <input type="email" id="emailInput" name="email" required>
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-label">Partides jugades</span>
+                <span class="stat-value" id="gamesPlayed">0</span>
             </div>
+            <div class="stat-item">
+                <span class="stat-label">Partides guanyades</span>
+                <span class="stat-value" id="gamesWon">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Percentatge de victòries</span>
+                <span class="stat-value" id="winRate">0%</span>
+            </div>
+        </div>
+        <button type="submit" id="saveProfileBtn" class="save-profile-button">Guardar canvis</button>
+    </form>
+</div>
             
             <div class="profile-tabs">
                 <button class="tab-button active" data-tab="friends">Amics</button>
@@ -87,6 +91,7 @@
         </div>
     </div>
     
-    <script src="profile.js"></script>
+    <script src="user-manager-json.js"></script>
+<script src="profile.js"></script>
 </body>
 </html>

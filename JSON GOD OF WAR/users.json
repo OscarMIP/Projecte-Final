@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "username": "ejemplo",
+    "email": "correo@ejemplo.com",
+    "profilePic": "images/default-avatar.png",
+    "stats": {
+      "gamesPlayed": 0,
+      "gamesWon": 0
+    }
+  }
+]

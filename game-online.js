@@ -458,16 +458,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Salir del juego
     exitButton.addEventListener('click', function() {
-        if (confirm('Segur que vols sortir de la partida? Es comptarà com a derrota.')) {
-            // Enviar evento de desconexión
-            socket.emit('leaveGame', roomId);
-            
-            // Actualizar estadísticas como derrota
-            userManager.updateStats(false);
-            
-            // Redirigir al menú principal
-            window.location.href = 'menu.html';
-        }
+        // Enviar evento de desconexión
+        socket.emit('leaveGame', roomId);
+        
+        // Actualizar estadísticas como derrota
+        userManager.updateStats(false);
+        
+        // Redirigir al menú principal
+        window.location.href = 'menu.html';
     });
     
     // Eventos del socket

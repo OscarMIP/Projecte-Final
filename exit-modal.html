@@ -1,14 +1,4 @@
-<!-- Modal de confirmació de sortida -->
-<div id="exitModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <h2>Confirmar sortida</h2>
-    <p>Estàs segur que vols sortir de la partida?</p>
-    <div class="modal-actions">
-      <button id="confirmExit">Sortir</button>
-      <button id="cancelExit">Cancel·lar</button>
-    </div>
-  </div>
-</div>
+
 <style>
 .modal {
   position: fixed;
@@ -49,13 +39,7 @@
   background: #d32f2f;
 }
 </style>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const exitModal = document.getElementById('exitModal');
-  const confirmExit = document.getElementById('confirmExit');
-  const cancelExit = document.getElementById('cancelExit');
 
-  if (confirmExit) {
     confirmExit.onclick = function() {
       window.location.href = 'index.html';
     };
