@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Evento para la opción de juego local
     localGameOption.addEventListener('click', function() {
-        window.location.href = 'index.html';
+        window.location.href = 'game-board.html';
     });
     
     // Evento para la opción de juego online

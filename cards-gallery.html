@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warborn Unbound - Galeria de Cartes</title>
+    <title>Warborn Unbound - Cards Gallery</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="cards.css">
     <link rel="stylesheet" href="cards-gallery.css">
@@ -12,14 +12,14 @@
     <div class="gallery-container">
         <header class="gallery-header">
             <a href="menu.html" class="back-button">
-                <span class="back-icon">←</span> Tornar al Menú
+                <span class="back-icon">←</span> Back to Menu
             </a>
-            <h1>Galeria de Cartes</h1>
+            <h1>Cards Gallery</h1>
             <div class="filter-container">
                 <select id="typeFilter" class="filter-select">
-                    <option value="all">Tots els tipus</option>
-                    <option value="offensive">Ofensives</option>
-                    <option value="defensive">Defensives</option>
+                    <option value="all">All types</option>
+                    <option value="offensive">Offensive</option>
+                    <option value="defensive">Defensive</option>
                 </select>
             </div>
         </header>
@@ -27,7 +27,7 @@
         <div class="gallery-content">
             <div class="cards-carousel">
                 <div class="carousel-container" id="carouselContainer">
-                    <!-- Las cartas se generarán dinámicamente -->
+                    <!-- Cards will be generated dynamically -->
                 </div>
                 <button class="carousel-button prev" id="prevButton">❮</button>
                 <button class="carousel-button next" id="nextButton">❯</button>
@@ -35,45 +35,45 @@
             
             <div class="card-details" id="cardDetails">
                 <div class="card-info">
-                    <h2 id="cardName">Nom de la Carta</h2>
+                    <h2 id="cardName">Card Name</h2>
                     <div class="card-type">
-                        <span class="type-label">Tipus:</span>
-                        <span class="type-value" id="cardType">Ofensiva</span>
+                        <span class="type-label">Type:</span>
+                        <span class="type-value" id="cardType">Offensive</span>
                     </div>
                     <div class="card-stats">
                         <div class="stat-item">
                             <div class="stat-icon health-icon"></div>
                             <div class="stat-info">
-                                <span class="stat-label">Salut</span>
+                                <span class="stat-label">Health</span>
                                 <span class="stat-value" id="cardHealth">1000</span>
                             </div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-icon attack-icon"></div>
                             <div class="stat-info">
-                                <span class="stat-label">Atac</span>
+                                <span class="stat-label">Attack</span>
                                 <span class="stat-value" id="cardAttack">75</span>
                             </div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-icon special-icon"></div>
                             <div class="stat-info">
-                                <span class="stat-label">Habilitat Especial</span>
+                                <span class="stat-label">Special Ability</span>
                                 <span class="stat-value" id="cardSpecial">150</span>
                             </div>
                         </div>
                     </div>
                     <div class="card-description">
-                        <h3>Descripció</h3>
-                        <p id="cardDescription">Descripció de la carta.</p>
+                        <h3>Description</h3>
+                        <p id="cardDescription">Card description.</p>
                     </div>
                     <div class="special-ability">
-                        <h3>Habilitat Especial</h3>
+                        <h3>Special Ability</h3>
                         <div class="ability-info">
-                            <span class="ability-name" id="abilityName">Nom de l'habilitat</span>
-                            <span class="ability-type" id="abilityType">Tipus d'habilitat</span>
+                            <span class="ability-name" id="abilityName">Ability name</span>
+                            <span class="ability-type" id="abilityType">Ability type</span>
                         </div>
-                        <p id="abilityDescription">Descripció de l'habilitat especial.</p>
+                        <p id="abilityDescription">Special ability description.</p>
                     </div>
                 </div>
             </div>

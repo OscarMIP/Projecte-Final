@@ -17,11 +17,37 @@
     box-sizing: border-box;
 }
 
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
 
 .card.selected {
-    transform: translateY(-15px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
-    z-index: 100;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+    border: 2px solid gold;
+    z-index: 10;
+}
+
+.card.selectable {
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    border: 2px solid cyan;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
 }
 
 .card.attacking {

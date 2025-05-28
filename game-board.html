@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,9 +133,9 @@
 <body>
     <h1 class="game-title">Warborn Unbound</h1>
     <div class="footer-buttons">
-    <button class="exit-button" id="exitButton">Sortir</button>
-    <button class="multiplayer-button" id="multiplayerButton">Multijugador</button>
-    <button class="profile-button" id="profileButton">Perfil</button>
+    <button class="exit-button" id="exitButton">Exit</button>
+    <button class="multiplayer-button" id="multiplayerButton">Multiplayer</button>
+    <button class="profile-button" id="profileButton">Profile</button>
 </div>
     
     <div class="game-board">
@@ -144,7 +144,7 @@
             <div class="player-info-bar">
                 <div class="player-avatar"></div>
                 <div class="player-details">
-                    <span class="player-name">Jugador 1</span>
+                    <span class="player-name">Player 1</span>
                     <div class="player-stats">
                         <span class="cards-count"><i class="card-icon"></i> 5</span>
                         <span class="player-health"><i class="health-icon"></i> 100</span>
@@ -156,10 +156,10 @@
             </div>
             <div class="buttons-area">
                 <button class="game-button special-button" id="specialButtonLeft">
-                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                    <img src="images/specialability_icon.webp" alt="Special Ability">
                 </button>
                 <button class="game-button attack-button" id="attackButtonLeft">
-                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                    <img src="images/attackpower_icon.webp" alt="Attack">
                 </button>
             </div>
         </div>
@@ -168,7 +168,7 @@
         <div class="player-area right-player">
             <div class="player-info-bar">
                 <div class="player-details">
-                    <span class="player-name">Jugador 2</span>
+                    <span class="player-name">Player 2</span>
                     <div class="player-stats">
                         <span class="cards-count"><i class="card-icon"></i> 5</span>
                         <span class="player-health"><i class="health-icon"></i> 100</span>
@@ -181,10 +181,10 @@
             </div>
             <div class="buttons-area">
                 <button class="game-button special-button" id="specialButtonRight">
-                    <img src="images/specialability_icon.webp" alt="Habilidad Especial">
+                    <img src="images/specialability_icon.webp" alt="Special Ability">
                 </button>
                 <button class="game-button attack-button" id="attackButtonRight">
-                    <img src="images/attackpower_icon.webp" alt="Ataque">
+                    <img src="images/attackpower_icon.webp" alt="Attack">
                 </button>
             </div>
         </div>
@@ -196,10 +196,10 @@
     
     <div class="multiplayer-modal" id="multiplayerModal" style="display: none;">
         <div class="multiplayer-options">
-            <h2>Selecciona modo de juego</h2>
-            <button id="localButton">Partida Local</button>
-            <button id="onlineButton">Partida Online</button>
-            <button id="cancelButton">Cancelar</button>
+            <h2>Select Game Mode</h2>
+            <button id="localButton">Local Game</button>
+            <button id="onlineButton">Online Game</button>
+            <button id="cancelButton">Cancel</button>
         </div>
     </div>
 
@@ -294,7 +294,7 @@
         
         // Añadir evento al botón de salir
         document.getElementById('exitButton').addEventListener('click', function() {
-            if (confirm('Segur que vols sortir de la partida?')) {
+            if (confirm('Are you sure you want to exit the game?')) {
                 window.location.href = 'menu.html';
             }
         });

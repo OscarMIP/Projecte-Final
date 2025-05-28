@@ -113,6 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentUser = userManager.getCurrentUser();
     if (currentUser) {
         // Si ya hay sesión iniciada, redirigir al juego
-        window.location.href = 'index.html';
+        window.location.href = 'game-board.html';
     }
 });
