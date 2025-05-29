@@ -11,31 +11,15 @@ class CardManager {
         this.characters = [];
         this.playerOneCards = [];
         this.playerTwoCards = [];
+        this.apiUrl = 'http://localhost:3002/api';
     }
 
-    // Cargar los personajes desde el archivo JSON
+    // Cargar los personajes desde el backend
     async loadCharacters() {
         try {
-            console.log('Intentando cargar personajes desde:', 'JSON GOD OF WAR/characters.json');
+            console.log('Intentando cargar personajes desde el backend...');
             
-            // Verificar si el archivo existe primero
-            const checkResponse = await fetch('JSON GOD OF WAR/characters.json', { method: 'HEAD' })
-                .catch(err => {
-                    console.error('Error al verificar el archivo characters.json:', err);
-                    return { ok: false, status: 404 };
-                });
-            
-            if (!checkResponse.ok) {
-                console.error(`El archivo characters.json no se encuentra. Estado: ${checkResponse.status}`);
-                
-                // Cargar datos de ejemplo si no se encuentra el archivo
-                console.log('Cargando datos de ejemplo...');
-                this.characters = this.getDefaultCharacters();
-                console.log(`Cargados ${this.characters.length} personajes de ejemplo`);
-                return this.characters;
-            }
-            
-            const response = await fetch('JSON GOD OF WAR/characters.json');
+            const response = await fetch(`${this.apiUrl}/cards`);
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);
             }
@@ -52,8 +36,24 @@ class CardManager {
         } catch (error) {
             console.error('Error al cargar los personajes:', error);
             
-            // Cargar datos de ejemplo en caso de error
-            console.log('Cargando datos de ejemplo debido al error...');
+            // Si falla la carga desde el backend, intentar cargar desde el archivo local
+            try {
+                console.log('Intentando cargar desde archivo local...');
+                const response = await fetch('JSON GOD OF WAR/characters.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        this.characters = data;
+                        console.log(`Cargados ${this.characters.length} personajes desde archivo local`);
+                        return this.characters;
+                    }
+                }
+            } catch (localError) {
+                console.error('Error al cargar desde archivo local:', localError);
+            }
+            
+            // Si todo falla, usar datos de ejemplo
+            console.log('Cargando datos de ejemplo...');
             this.characters = this.getDefaultCharacters();
             console.log(`Cargados ${this.characters.length} personajes de ejemplo`);
             return this.characters;

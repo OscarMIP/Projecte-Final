@@ -9,13 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentUser = null;
     if (userManager) {
         currentUser = userManager.getCurrentUser();
-        if (!currentUser) {
-            // Si no hay sesión iniciada, redirigir a la página de autenticación
-            window.location.href = 'landing.html';
-            return;
-        }
     } else {
         console.warn('UserManager no está disponible. Continuando en modo anónimo.');
+        currentUser = {
+            username: 'Jugador 1',
+            id: 'anonymous-' + Date.now()
+        };
     }
     
     // Variables para el juego local

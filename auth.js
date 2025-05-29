@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el gestor de usuarios
-    const userManager = new UserManager();
+    const userManager = new UserManagerJSON();
     
     // Referencias a los elementos del DOM
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -31,35 +31,36 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Manejar envío del formulario de inicio de sesión
-    loginForm.addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const username = document.getElementById('loginUsername').value;
+        const email = document.getElementById('loginUsername').value;
         const password = document.getElementById('loginPassword').value;
         
         // Validar campos
-        if (!username || !password) {
+        if (!email || !password) {
             showMessage(loginMessage, 'Si us plau, omple tots els camps', 'error');
             return;
         }
         
         // Intentar iniciar sesión
-        const result = userManager.loginUser(username, password);
+        const result = await userManager.loginUser(email, password);
         
         if (result.success) {
-            showMessage(loginMessage, result.message, 'success');
+            showMessage(loginMessage, 'Inici de sessió correcte', 'success');
             
-            // Redirigir al menú principal después de un breve retraso
-            setTimeout(() => {
-                window.location.href = 'menu.html';
-            }, 1500);
+            // Guardar usuario en sessionStorage
+            sessionStorage.setItem('currentUser', JSON.stringify(result.user));
+            
+            // Redirigir al menú principal inmediatamente
+            window.location.replace('menu.html');
         } else {
             showMessage(loginMessage, result.message, 'error');
         }
     });
     
     // Manejar envío del formulario de registro
-    registerForm.addEventListener('submit', function(e) {
+    registerForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const username = document.getElementById('registerUsername').value;
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Intentar registrar usuario
-        const result = userManager.registerUser(username, email, password);
+        const result = await userManager.registerUser(username, email, password);
         
         if (result.success) {
             showMessage(registerMessage, result.message, 'success');
@@ -110,9 +111,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Comprobar si hay un usuario con sesión iniciada
-    const currentUser = userManager.getCurrentUser();
-    if (currentUser) {
-        // Si ya hay sesión iniciada, redirigir al juego
-        window.location.href = 'game-board.html';
+    const userJson = sessionStorage.getItem('currentUser');
+    if (userJson) {
+        // Si ya hay sesión iniciada, redirigir al menú
+        window.location.replace('menu.html');
     }
 });

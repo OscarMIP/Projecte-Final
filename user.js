@@ -1,92 +1,116 @@
 // Clase para gestionar usuarios del juego
 class UserManager {
     constructor() {
-        this.users = this.loadUsers();
         this.currentUser = null;
+        this.apiUrl = 'http://localhost:3002/api';
     }
 
-    // Cargar usuarios desde localStorage
-    loadUsers() {
-        const savedUsers = localStorage.getItem('warbornUsers');
-        return savedUsers ? JSON.parse(savedUsers) : [];
+    // Cargar usuarios desde el servidor
+    async loadUsers() {
+        try {
+            const response = await fetch(`${this.apiUrl}/users`);
+            if (!response.ok) throw new Error('Error al cargar usuarios');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return [];
+        }
     }
 
-    // Guardar usuarios en localStorage
-    saveUsers() {
-        localStorage.setItem('warbornUsers', JSON.stringify(this.users));
+    // Guardar usuario en el servidor
+    async saveUser(userData) {
+        try {
+            const response = await fetch(`${this.apiUrl}/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+            if (!response.ok) throw new Error('Error al guardar usuario');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
     }
 
     // Registrar un nuevo usuario
-    registerUser(username, email, password) {
-        // Comprobar si el usuario ya existe
-        if (this.users.some(user => user.username === username || user.email === email)) {
+    async registerUser(username, email, password) {
+        try {
+            const response = await fetch(`${this.apiUrl}/users/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: data.message || 'Error en el registre'
+                };
+            }
+
+            return {
+                success: true,
+                message: 'Registre completat correctament'
+            };
+        } catch (error) {
+            console.error('Error:', error);
             return {
                 success: false,
-                message: 'El nom d\'usuari o correu electrònic ja existeix'
+                message: 'Error de connexió amb el servidor'
             };
         }
-
-        // Crear nuevo usuario
-        const newUser = {
-            id: Date.now().toString(),
-            username,
-            email,
-            password, // En una aplicación real, la contraseña debería estar encriptada
-            friends: [],
-            friendRequests: [],
-            stats: {
-                gamesPlayed: 0,
-                gamesWon: 0
-            },
-            createdAt: new Date().toISOString()
-        };
-
-        // Añadir a la lista de usuarios
-        this.users.push(newUser);
-        this.saveUsers();
-
-        return {
-            success: true,
-            message: 'Usuari registrat correctament',
-            userId: newUser.id
-        };
     }
 
     // Iniciar sesión
-    loginUser(usernameOrEmail, password) {
-        const user = this.users.find(
-            user => (user.username === usernameOrEmail || user.email === usernameOrEmail) && 
-                    user.password === password
-        );
+    async login(email, password) {
+        try {
+            const response = await fetch(`${this.apiUrl}/users/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-        if (!user) {
+            const data = await response.json();
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: data.message || 'Credencials incorrectes'
+                };
+            }
+            this.currentUser = data.user;
+            // Guardar usuario en sessionStorage
+            sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+            return {
+                success: true,
+                user: data.user
+            };
+        } catch (error) {
+            console.error('Error:', error);
             return {
                 success: false,
-                message: 'Nom d\'usuari o contrasenya incorrectes'
+                message: 'Error de connexió amb el servidor'
             };
         }
-
-        // Guardar usuario actual en sesión
-        this.currentUser = user;
-        sessionStorage.setItem('currentUserId', user.id);
-
-        return {
-            success: true,
-            message: 'Inici de sessió correcte',
-            user: {
-                id: user.id,
-                username: user.username,
-                email: user.email,
-                stats: user.stats,
-                friends: user.friends
-            }
-        };
     }
 
     // Cerrar sesión
     logoutUser() {
         this.currentUser = null;
-        sessionStorage.removeItem('currentUserId');
+        // Limpiar toda la sesión
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.clear();
         return {
             success: true,
             message: 'Sessió tancada correctament'
@@ -97,9 +121,9 @@ class UserManager {
     getCurrentUser() {
         // Si no hay usuario en memoria, intentar recuperarlo de la sesión
         if (!this.currentUser) {
-            const userId = sessionStorage.getItem('currentUserId');
-            if (userId) {
-                this.currentUser = this.users.find(user => user.id === userId);
+            const userJson = sessionStorage.getItem('currentUser');
+            if (userJson) {
+                this.currentUser = JSON.parse(userJson);
             }
         }
         return this.currentUser;
@@ -284,7 +308,7 @@ class UserManager {
     }
 
     // Actualizar estadísticas después de una partida
-    updateStats(won) {
+    async updateStats(won) {
         if (!this.currentUser) {
             return {
                 success: false,
@@ -292,21 +316,35 @@ class UserManager {
             };
         }
 
-        // Incrementar contador de partidas jugadas
-        this.currentUser.stats.gamesPlayed++;
+        try {
+            const response = await fetch(`${this.apiUrl}/users/${this.currentUser.id}/stats`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ won })
+            });
 
-        // Si ganó, incrementar contador de victorias
-        if (won) {
-            this.currentUser.stats.gamesWon++;
+            const data = await response.json();
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: data.message || 'Error al actualitzar estadístiques'
+                };
+            }
+
+            this.currentUser.stats = data.stats;
+            return {
+                success: true,
+                stats: data.stats
+            };
+        } catch (error) {
+            console.error('Error:', error);
+            return {
+                success: false,
+                message: 'Error de connexió amb el servidor'
+            };
         }
-
-        // Guardar cambios
-        this.saveUsers();
-
-        return {
-            success: true,
-            stats: this.currentUser.stats
-        };
     }
 
     // Obtener estadísticas del usuario actual

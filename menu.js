@@ -68,8 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Evento para cerrar sesión
     logoutButton.addEventListener('click', function() {
+        // Primero limpiar la sesión
         userManager.logoutUser();
-        window.location.href = 'auth.html';
+        // Redirigir sin posibilidad de volver atrás
+        window.location.replace('auth.html');
     });
     
     // Cerrar submenú al hacer clic fuera de él
